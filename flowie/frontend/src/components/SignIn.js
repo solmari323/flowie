@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import tomato from "./../../static/img/tomato.png";
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
-const SignIn = () => {
+const SignIn = ({ setUserId }) => {
+  let history = useHistory();
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
 
@@ -37,6 +38,8 @@ const SignIn = () => {
       .then((data) => {
         if (data) {
           console.log(data);
+          setUserId(data.user_id);
+          history.push("/" + data.user_id);
         } else {
           console.log("No Data!");
         }
@@ -57,12 +60,10 @@ const SignIn = () => {
       <button type="submit" onClick={SubmitButtonClicked}>
         Sign In
       </button>
-
-      
+      <a href="signUp">Don't have an Account? Create One!</a>
     </div>
   );
 };
 
 /* Link to Sign Up Page */
 export default SignIn;
-

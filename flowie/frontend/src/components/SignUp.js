@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 
-const SignUp = () => {
+const SignUp = ({ setUserId }) => {
   let history = useHistory();
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
@@ -46,7 +46,8 @@ const SignUp = () => {
         .then((data) => {
           if (data) {
             console.log(data);
-            // history.push('' + {userId})
+            setUserId(data.user_id);
+            history.push("/" + data.user_id);
           } else {
             console.log("No Data!");
           }
@@ -75,6 +76,7 @@ const SignUp = () => {
       <button type="submit" onClick={SubmitButtonClicked}>
         Create Account
       </button>
+      <a href="/">Already have an Account? Sign In!</a>
     </div>
   );
 };

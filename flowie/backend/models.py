@@ -1,22 +1,39 @@
 from django.db import models
-import uuid
+import random
+import string
 from django.core.validators import MinValueValidator, MaxValueValidator
 
-    
+
+def generate_unique_user_code():
+    length = 6
+    while True:
+        # Generates random string consisting only of ASCII Upper-Case letters
+        user_id = ''.join(random.choices(string.ascii_uppercase, k=length))
+        if (Users.objects.filter(user_id=user_id)).count() == 0:
+            break
+    return user_id
+
+
+def generate_unique_session_code():
+    length = 6
+    while True:
+        # Generates random string consisting only of ASCII Upper-Case letters
+        user_id = ''.join(random.choices(string.ascii_uppercase, k=length))
+        if (Session.objects.filter(user_id=user_id)).count() == 0:
+            break
+    return user_id
+
+
 class Session(models.Model):
-    session_id = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
+    session_id = models.UUIDField(default=generate_unique_session_code, unique=True, editable=False)
     # User can skip rating/questions -> so allowed to be blank
     session_rating = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)], blank=True)
     session_data = models.JSONField(blank=True)
 
 
 class Users(models.Model):
-    # user_id = models.CharField(max_length=8, default=uuid.uuid4, unique=True, primary_key=True)
-    user_id = models.CharField(max_length=8, primary_key=True, default=uuid.uuid4, editable=False)
-
-    user_name = models.CharField(max_length=15, default=uuid.uuid4)
-    # user_name = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
-
+    user_id = models.CharField(max_length=8, primary_key=True, default=generate_unique_user_code, editable=False)
+    user_name = models.CharField(max_length=15)
     email = models.EmailField(max_length=20, null=True)
     password = models.CharField(max_length=15, blank=False)
     optimal_session = models.ForeignKey(Session, on_delete=models.CASCADE, null=True)

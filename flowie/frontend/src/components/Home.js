@@ -4,7 +4,6 @@ import {
   Switch,
   Route,
   Redirect,
-  useHistory,
 } from "react-router-dom";
 import SignUp from "./SignUp";
 import SignIn from "./SignIn";
@@ -34,18 +33,23 @@ const Home = () => {
           path="/"
           render={() => {
             return !userId ? null : userId == "No Session" ? (
-              <SignIn />
+              <SignIn setUserId={setUserId} />
             ) : (
               <Redirect to={`/${userId}`} />
             );
           }}
         />
-        <Route path="/signUp" component={SignUp} />
+        <Route
+          path="/signUp"
+          render={() => {
+            return <SignUp setUserId={setUserId} />;
+          }}
+        />
         <Route
           exact
           path="/:userId"
           render={() => {
-            return <Homepage />;
+            return <HomePage userId={userId} />;
           }}
         />
       </Switch>

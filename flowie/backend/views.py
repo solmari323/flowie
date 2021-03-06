@@ -33,7 +33,7 @@ class signUp(APIView):
 
             self.request.session['user_id'] = user.user_id
 
-            return Response({"": ""}, status=status.HTTP_200_OK)
+            return Response(UserSerializer(user).data, status=status.HTTP_200_OK)
 
         return Response({"Bad Request": "user_name and/or password not found in request"}, status=status.HTTP_400_BAD_REQUEST)
 
