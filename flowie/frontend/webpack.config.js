@@ -10,6 +10,10 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.(jpe?g|png|gif|svg)$/i,
+        loader: "file-loader",
+      },
+      {
         test: /\.js$/,
         exclude: /node_modules/,
         use: {

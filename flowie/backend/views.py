@@ -16,6 +16,7 @@ class signUp(APIView):
     serializer_class = UserSerializer
     lookup_url_kwarg_user_name = 'user_name'
     lookup_url_kwarg_password = 'password'
+    lookup_url_kwarg_email = 'email'
 
     def post(self, request, format=None):
         # If they don't have an active session -> create one
@@ -24,14 +25,15 @@ class signUp(APIView):
 
         user_name = request.data.get(self.lookup_url_kwarg_user_name)
         password = request.data.get(self.lookup_url_kwarg_password)
+        email = request.data.get(self.lookup_url_kwarg_email)
 
-        if user_name != None and password != None:
-            user = Users(user_name=user_name, password=password)
+        if user_name != None and password != None and email != None:
+            user = Users(user_name=user_name, password=password, email=email)
             user.save()
 
             self.request.session['user_id'] = user.user_id
 
-            return Response(UserSerializer(user).data, status=status.HTTP_200_OK)
+            return Response({"": ""}, status=status.HTTP_200_OK)
 
         return Response({"Bad Request": "user_name and/or password not found in request"}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -96,6 +98,7 @@ class saveSession(APIView):
             return Response(SessionSerializer(session).data, status=status.HTTP_200_OK)
 
         return Response({"Bad Request": "session_rating and/or session_data not found in request"}, status=status.HTTP_400_BAD_REQUEST)
+
 
 # class (APIView):
 #     serializer_class = UserSerializer

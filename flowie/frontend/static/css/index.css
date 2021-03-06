@@ -16,6 +16,8 @@ body {
 #app {
   width: 100%;
   height: 100%;
+  background: transparent linear-gradient(#e95454 0%, #ff4949 100%) 0% 0%
+    no-repeat padding-box;
 }
 
 .center {
@@ -23,4 +25,49 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.signin {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.signin button {
+  padding: 10px 30px;
+  background: transparent linear-gradient(111deg, #e95454 0%, #ff4949 100%) 0%
+    0% no-repeat padding-box;
+  box-shadow: 0px 3px 6px #00000024;
+  border: none;
+  border-radius: 20px;
+  margin-top: 20px;
+  color: white;
+  text-transform: uppercase;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: white;
+  box-shadow: 0px 3px 6px #00000029;
+  border-radius: 10px;
+  opacity: 1;
+  padding: 20px;
+  padding-top: 50px;
+}
+
+.container input {
+  padding: 10px 5px;
+  background-color: white;
+  border: 1px solid #e4e4e4;
+  border-radius: 3px;
+  margin-bottom: 5px;
+}
+
+.container img {
+  position: absolute;
+  transform: translateY(-100%);
 }
