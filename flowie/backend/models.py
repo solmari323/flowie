@@ -23,7 +23,6 @@ class Users(models.Model):
 
 
 class UserSession(models.Model):
-    # related_name ? (.set_all())
     user_id = models.ForeignKey(Users, on_delete=models.CASCADE)
     session_id = models.ForeignKey(Session, on_delete=models.CASCADE)
 

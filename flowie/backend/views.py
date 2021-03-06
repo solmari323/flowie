@@ -29,6 +29,8 @@ class signUp(APIView):
             user = Users(user_name=user_name, password=password)
             user.save()
 
+            self.request.session['user_id'] = user.user_id
+
             return Response(UserSerializer(user).data, status=status.HTTP_200_OK)
 
         return Response({"Bad Request": "user_name and/or password not found in request"}, status=status.HTTP_400_BAD_REQUEST)
@@ -52,12 +54,26 @@ class signIn(APIView):
 
             if user_query.exists():
                 user = user_query[0]
+                self.request.session['user_id'] = user.user_id
 
                 return Response(UserSerializer(user).data, status=status.HTTP_200_OK)
 
             return Response({"Bad Request": "user-name and/or password was invalid"}, status=status.HTTP_400_BAD_REQUEST)
 
         return Response({"Bad Request": "user-name and/or password not found in request"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class activeSession(APIView):
+    def get(self, request, format=None):
+        # If they don't have a session -> create one
+        if not self.request.session.exists(self.request.session.session_key):   
+            self.request.session.create()
+        
+        data = {
+            'user_id': self.request.session.get('user_id')
+        }
+        
+        return JsonResponse(data, status=status.HTTP_200_OK)
 
 
 class saveSession(APIView):
