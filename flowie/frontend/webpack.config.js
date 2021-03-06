@@ -8,6 +8,7 @@ module.exports = {
     filename: "[name].js",
   },
   module: {
+    // loaders: [{ test: /\.(png|jpg)$/, loader: "url-loader?limit=8192" }],
     rules: [
       {
         test: /\.(jpe?g|png|gif|svg)$/i,

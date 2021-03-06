@@ -49,7 +49,7 @@ const SignIn = ({ setUserId }) => {
   return (
     <div className="signin">
       <div className="container">
-        <img classname="tomato-img" src={tomato} alt="" />
+        <img src={tomato} alt="" />
         <input type="text" placeholder="Username" onChange={usernameChange} />
         <input
           type="password"

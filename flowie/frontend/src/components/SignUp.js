@@ -58,8 +58,8 @@ const SignUp = ({ setUserId }) => {
   };
 
   return (
-    <div>
-      <div>
+    <div className="signin">
+      <div className="container">
         <input type="text" placeholder="Username" onChange={usernameChange} />
         <input
           type="password"
