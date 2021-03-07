@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Feedback from "./Feedback";
+import CircularStatic from "./CircularStatic";
+import PauseRounded from "@material-ui/icons/PauseRounded";
+import PlayArrowRounded from "@material-ui/icons/PlayArrowRounded";
 
 const HomePage = ({ userId, csrftoken }) => {
   let params = useParams();
-  // const [username, setUsername] = useState();
-  // const [password, setPassword] = useState();
-  const [workTime, setWorkTime] = useState();
-  const [breakTime, setBreakTime] = useState();
+  const [workTime, setWorkTime] = useState(25);
+  const [breakTime, setBreakTime] = useState(5);
+  const [sessionEnded, setSessionEnded] = useState(false);
+  const [work, setWork] = useState(true);
 
   useEffect(() => {
     const requestOptions = {
@@ -45,12 +48,40 @@ const HomePage = ({ userId, csrftoken }) => {
   }, []);
 
   return (
-    <div className="signin">
-      <div className="container">
-        <p>Timer goes here</p>
+    <div>
+      <div className="signin">
+        {!sessionEnded ? (
+          <div className="timer-container">
+            <div className="timer home-page">
+              <img src={"/static/img/tomato.svg"} alt="" />
+              <h6>{work ? "Work Time" : "Break Time"}</h6>
+              <CircularStatic
+                workTime={workTime}
+                breakTime={breakTime}
+                work={work}
+                setWork={setWork}
+              />
+              <div className="timer-buttons">
+                <button>
+                  <PauseRounded style={{ fill: "red" }} />
+                </button>
+                <button>
+                  <PlayArrowRounded style={{ fill: "red" }} />
+                </button>
+              </div>
+            </div>
+            <button
+              className="red-butt"
+              onClick={() => {
+                setSessionEnded(true);
+              }}
+            >
+              Finish
+            </button>
+          </div>
+        ) : null}
+        {sessionEnded ? <Feedback /> : null}
       </div>
-      <button>Finish</button>
-      <Feedback />
     </div>
   );
 };

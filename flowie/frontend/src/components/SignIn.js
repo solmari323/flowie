@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import tomato from "./../../static/img/tomato.png";
 import { useHistory } from "react-router-dom";
 
 const SignIn = ({ setUserId, csrftoken }) => {
@@ -50,7 +49,7 @@ const SignIn = ({ setUserId, csrftoken }) => {
   return (
     <div className="signin">
       <div className="container">
-        <img src={tomato} alt="" />
+        <img src={"/static/img/tomato.svg"} alt="" />
         <input type="text" placeholder="Username" onChange={usernameChange} />
         <input
           type="password"

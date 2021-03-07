@@ -3,7 +3,7 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
 }
 
 #main {
@@ -26,6 +26,9 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  width: 100vw;
+  height: 100vh;
+  overflow: scroll;
 }
 
 .signin {
@@ -33,18 +36,6 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-}
-
-.signin > button {
-  padding: 10px 30px;
-  background: transparent linear-gradient(111deg, #e95454 0%, #ff4949 100%) 0%
-    0% no-repeat padding-box;
-  box-shadow: 0px 3px 6px #00000024;
-  border: none;
-  border-radius: 20px;
-  margin-top: 20px;
-  color: white;
-  text-transform: uppercase;
 }
 
 .container {
@@ -109,7 +100,8 @@ body {
   width: 80vw;
 }
 
-.feedback > button {
+.feedback > button,
+.feedback-container > button {
   padding: 10px 30px;
   background-color: white;
   box-shadow: 0px 3px 6px #00000024;
@@ -122,4 +114,91 @@ body {
 
 .slider {
   color: white;
+}
+
+.active {
+  background-color: white !important;
+  color: #e95454 !important;
+}
+
+.active:focus {
+  outline: none;
+}
+
+.tomato-signup {
+  transform: translateY(-130%) !important;
+}
+
+.home-page {
+  margin-top: 30vh;
+}
+
+.feedback-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 5vh;
+}
+
+.feedback-container h1 {
+  font-weight: 500;
+}
+
+.feedback-container button {
+  width: fit-content;
+}
+
+.girl {
+  margin: 40px 30px;
+}
+
+.timer {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  /* justify-content: center; */
+  align-items: center;
+  padding: 50px;
+}
+
+.timer > img {
+  position: absolute;
+  transform: translateY(-100%);
+}
+
+.signin > button,
+.red-butt {
+  padding: 10px 30px;
+  background: transparent linear-gradient(111deg, #e95454 0%, #ff4949 100%) 0%
+    0% no-repeat padding-box;
+  box-shadow: 0px 3px 6px #00000024;
+  border: none;
+  border-radius: 20px;
+  margin-top: 20px;
+  color: white;
+  text-transform: uppercase;
+}
+
+.timer-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.timer-buttons {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  margin-top: 50px;
+  width: 80px;
+  justify-content: space-between;
+}
+
+.timer-buttons button {
+  padding: 5px 5px 3px 5px;
+  box-shadow: 0px 1px 4px #00000040;
+  border: none;
+  border-radius: 5px;
+  background-color: white;
 }

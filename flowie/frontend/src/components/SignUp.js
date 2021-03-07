@@ -61,6 +61,7 @@ const SignUp = ({ setUserId, csrftoken }) => {
   return (
     <div className="signin">
       <div className="container">
+        <img className="tomato-signup" src={"/static/img/tomato.svg"} alt="" />
         <input type="text" placeholder="Username" onChange={usernameChange} />
         <input
           type="password"
