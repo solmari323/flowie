@@ -3,6 +3,7 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
+  font-family: 'Lato', sans-serif;
 }
 
 #main {
@@ -34,7 +35,7 @@ body {
   flex-direction: column;
 }
 
-.signin button {
+.signin > button {
   padding: 10px 30px;
   background: transparent linear-gradient(111deg, #e95454 0%, #ff4949 100%) 0%
     0% no-repeat padding-box;
@@ -70,4 +71,55 @@ body {
 .container img {
   position: absolute;
   transform: translateY(-100%);
+}
+
+.container-rating {
+  display: flex;
+  flex-direction: row;
+  width: fit-content;
+}
+
+.session-p {
+  text-align: center;
+  color: white;
+}
+
+.container-rating button {
+  background-color: transparent;
+  border: 2px solid white;
+  padding: 8px 10px;
+  color: white;
+  white-space: nowrap;
+  margin-left: 5px;
+  border-radius: 3px;
+}
+
+.container-rating button:first-of-type {
+  margin-left: 0;
+}
+
+.feedback {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.feedback h1 {
+  color: white;
+  width: 80vw;
+}
+
+.feedback > button {
+  padding: 10px 30px;
+  background-color: white;
+  box-shadow: 0px 3px 6px #00000024;
+  border: none;
+  border-radius: 20px;
+  margin-top: 20px;
+  color: #e95454;
+  text-transform: uppercase;
+}
+
+.slider {
+  color: white;
 }

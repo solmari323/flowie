@@ -5,6 +5,7 @@ from .models import Users, Session, UserSession
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = Users
+        dpeth = 1
         fields = ('user_id', 'user_name', 'password', 'optimal_session')
 
 
@@ -20,9 +21,4 @@ class OptimalSessionSerializer(serializers.ModelSerializer):
         # depth = 1
         fields = ('optimal_session')
 
-
-# class UserSessionSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = UserSerializer
-#         fields = ('user_id', 'session_id')
 

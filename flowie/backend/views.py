@@ -5,7 +5,7 @@ from rest_framework import generics, status
 
 from .models import Users, Session, UserSession
 from .serializers import UserSerializer, SessionSerializer, OptimalSessionSerializer
-
+from django.views.decorators.csrf import ensure_csrf_cookie
 
 class index(generics.ListAPIView):
     queryset = Users.objects.all()
@@ -37,7 +37,7 @@ class signUp(APIView):
 
         return Response({"Bad Request": "user_name and/or password not found in request"}, status=status.HTTP_400_BAD_REQUEST)
 
-
+# @ensure_csrf_cookie
 class signIn(APIView):
     serializer_class = UserSerializer
     lookup_url_kwarg_user_name = 'user_name'
@@ -87,7 +87,7 @@ class saveSession(APIView):
         # If they don't have an active session -> create one
         if not self.request.session.exists(self.request.session.session_key):
             self.request.session.create() 
-
+        
         session_rating = request.data.get(self.lookup_url_kwarg_session_rating)
         session_data = request.data.get(self.lookup_url_kwarg_session_data)
 
@@ -100,43 +100,57 @@ class saveSession(APIView):
         return Response({"Bad Request": "session_rating and/or session_data not found in request"}, status=status.HTTP_400_BAD_REQUEST)
 
 
-# class (APIView):
-#     serializer_class = UserSerializer
-#     lookup_url_kwarg = ''
-
-#     def (self, request, format=None):
-#         # If they don't have an active session -> create one
-#         if not self.request.session.exists(self.request.session.session_key):
-#             self.request.session.create() 
-
-#          = request.data.get(self.lookup_url_kwarg)
-
-#         if  != None:
-#             ..
-#         return Response(Serializer().data, status=status.HTTP_200_OK)        
-#         return Response({"": ""}, status=status.HTTP_400_BAD_REQUEST)
-
-
-class getOptimalSession(APIView):
-    serializer_class = SessionSerializer
-    lookup_url_kwarg_user_id = 'user_id'
+class getUser(APIView):
+    serializer_class = UserSerializer
+    lookup_url_kwarg = 'user_id'
 
     def post(self, request, format=None):
         # If they don't have an active session -> create one
         if not self.request.session.exists(self.request.session.session_key):
             self.request.session.create() 
 
-        user_id = request.data.get(self.lookup_url_kwarg_user_id)
+        # user_id = request.data.get(self.lookup_url_kwarg)
+        user_id = self.request.session.get('user_id')
 
         if user_id != None:
             user_query = Users.objects.filter(user_id=user_id)
 
             if user_query.exists():
-                optimal_session = user_query[0].optimal_session
+                user = user_query[0]
+
+                return Response(UserSerializer(user).data, status=status.HTTP_200_OK)     
+
+            return Response({"Bad Request": "user_id not valid!"}, status=status.HTTP_400_BAD_REQUEST)
+
+        return Response({"Bad Request": "user_id not found in request!"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class updateOptimalSession(APIView):
+    serializer_class = UserSerializer
+    lookup_url_kwarg_session = 'session_id'
+    lookup_url_kwarg_user = 'user_id'
+
+
+    def patch(self, request, format=None):
+        # If they don't have an active session -> create one
+        if not self.request.session.exists(self.request.session.session_key):
+            self.request.session.create() 
+
+        session_id = request.data.get(self.lookup_url_kwarg_session)
+        user_id = request.data.get(self.lookup_url_kwarg_user)
+
+        if session_id != None:
+            session_query = Session.objects.filter(session_id=session_id)
+            user_query = Users.objects.filter(user_id=user_id)
+
+            if session_query.exists() and user_query.exists():
+                session = session_query[0]
+                user = user_query[0]   
+                user.optimal_session = session
+                user.save(update_fields=['optimal_session'])
                 
-                return Response(OptimalSessionSerializer(optimal_session).data, status=status.HTTP_200_OK)    
+                return Response(UserSerializer(user).data, status=status.HTTP_200_OK)       
 
-        return Response({"Bad Request": "user_id not found in request"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"Bad Request": "user_id and/or session_id not valid!"}, status=status.HTTP_400_BAD_REQUEST)
 
-
-
+        return Response({"Bad Request": "user_id not found in request!"}, status=status.HTTP_400_BAD_REQUEST)

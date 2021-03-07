@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 
-const SignUp = ({ setUserId }) => {
+const SignUp = ({ setUserId, csrftoken }) => {
   let history = useHistory();
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
@@ -28,6 +28,7 @@ const SignUp = ({ setUserId }) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "X-CSRFToken": csrftoken,
         },
         body: JSON.stringify({
           user_name: username,

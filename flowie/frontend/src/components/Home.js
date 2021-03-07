@@ -20,10 +20,28 @@ const Home = () => {
         if (data.user_id == null) {
           setUserId("No Session");
         } else {
-          setUserId(data.user_id);
+          // setUserId(data.user_id);
+          setUserId("No Session");
         }
       });
   }, []);
+
+  function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== "") {
+      var cookies = document.cookie.split(";");
+      for (var i = 0; i < cookies.length; i++) {
+        var cookie = jQuery.trim(cookies[i]);
+        if (cookie.substring(0, name.length + 1) === name + "=") {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+
+  var csrftoken = getCookie("csrftoken");
 
   return (
     <Router>
@@ -33,7 +51,7 @@ const Home = () => {
           path="/"
           render={() => {
             return !userId ? null : userId == "No Session" ? (
-              <SignIn setUserId={setUserId} />
+              <SignIn setUserId={setUserId} csrftoken={csrftoken} />
             ) : (
               <Redirect to={`/${userId}`} />
             );
@@ -42,14 +60,14 @@ const Home = () => {
         <Route
           path="/signUp"
           render={() => {
-            return <SignUp setUserId={setUserId} />;
+            return <SignUp setUserId={setUserId} csrftoken={csrftoken} />;
           }}
         />
         <Route
           exact
           path="/:userId"
           render={() => {
-            return <HomePage userId={userId} />;
+            return <HomePage userId={userId} csrftoken={csrftoken} />;
           }}
         />
       </Switch>

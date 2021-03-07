@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import tomato from "./../../static/img/tomato.png";
 import { useHistory } from "react-router-dom";
 
-const SignIn = ({ setUserId }) => {
+const SignIn = ({ setUserId, csrftoken }) => {
   let history = useHistory();
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
@@ -20,6 +20,7 @@ const SignIn = ({ setUserId }) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "X-CSRFToken": csrftoken,
       },
       body: JSON.stringify({
         user_name: username,
@@ -39,7 +40,7 @@ const SignIn = ({ setUserId }) => {
         if (data) {
           console.log(data);
           setUserId(data.user_id);
-          history.push("/" + data.user_id);
+          // history.push("/" + data.user_id);
         } else {
           console.log("No Data!");
         }
