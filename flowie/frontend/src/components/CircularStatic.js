@@ -5,16 +5,22 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 
 function CircularProgressWithLabel(props) {
-  if (props.value >= props.timeInterval - 1) {
-    props.setTimeInterval(props.work ? props.workTime : props.breakTime);
-    // Line below causing errors
-    props.setWork(!props.work);
-  }
-  console.log(props.timeInterval);
+  // if (props.value >= props.timeInterval - 1) {
+  //   props.setTimeInterval(props.work ? props.workTime : props.breakTime);
+  //   // Line below causing errors
+  //   // props.setWork(!props.work);
+  // }
+  console.log(props.progress);
 
   return (
     <Box position="relative" display="inline-flex">
-      <CircularProgress variant="determinate" {...props} />
+      <CircularProgress
+        size={100}
+        value={(props.progress / props.timeInterval) * 100}
+        color="secondary"
+        variant="determinate"
+        {...props}
+      />
       <Box
         top={0}
         left={0}
@@ -29,14 +35,14 @@ function CircularProgressWithLabel(props) {
           variant="caption"
           component="div"
           color="textSecondary"
-        >{`${Math.round(props.value)}s`}</Typography>
+        >{`${Math.round(props.progress)} mins`}</Typography>
       </Box>
     </Box>
   );
 }
 
 CircularProgressWithLabel.propTypes = {
-  value: PropTypes.number.isRequired,
+  progress: PropTypes.number.isRequired,
   workTime: PropTypes.number,
   breakTime: PropTypes.number,
   work: PropTypes.bool,
@@ -46,7 +52,7 @@ CircularProgressWithLabel.propTypes = {
 };
 
 export default function CircularStatic(props) {
-  const [progress, setProgress] = React.useState(20);
+  const [progress, setProgress] = React.useState(props.workTime);
   const [timeInterval, setTimeInterval] = useState(props.workTime);
 
   React.useEffect(() => {
@@ -54,18 +60,16 @@ export default function CircularStatic(props) {
       //   if (progress >= timeInterval - 1) {
       //     props.setWork(!props.work);
       //   }
-      setProgress((prevProgress) =>
-        prevProgress >= timeInterval - 1 ? 0 : prevProgress + 1
-      );
-    }, 800);
+      setProgress((prevProgress) => (prevProgress > 0 ? prevProgress - 1 : 0));
+    }, 1000);
     return () => {
       clearInterval(timer);
     };
-  }, []);
+  }, [progress]);
 
   return (
     <CircularProgressWithLabel
-      value={progress}
+      progress={progress}
       work={props.work}
       workTime={props.workTime}
       breakTime={props.breakTime}

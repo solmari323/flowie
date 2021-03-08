@@ -36,6 +36,22 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  margin-top: 27vh;
+}
+
+.home-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.start-session {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 35vh;
 }
 
 .container {
@@ -130,14 +146,13 @@ body {
 }
 
 .home-page {
-  margin-top: 30vh;
+  margin-top: 10vh;
 }
 
 .feedback-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 5vh;
 }
 
 .feedback-container h1 {
@@ -201,4 +216,8 @@ body {
   border: none;
   border-radius: 5px;
   background-color: white;
+}
+
+.timer-img {
+  transform: translateY(-150%) !important;
 }

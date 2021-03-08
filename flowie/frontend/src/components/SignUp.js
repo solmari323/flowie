@@ -78,6 +78,7 @@ const SignUp = ({ setUserId, csrftoken }) => {
       <button type="submit" onClick={SubmitButtonClicked}>
         Create Account
       </button>
+      <br/>
       <a href="/">Already have an Account? Sign In!</a>
     </div>
   );

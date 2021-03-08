@@ -4,6 +4,8 @@ import Feedback from "./Feedback";
 import CircularStatic from "./CircularStatic";
 import PauseRounded from "@material-ui/icons/PauseRounded";
 import PlayArrowRounded from "@material-ui/icons/PlayArrowRounded";
+import { Collapse } from "@material-ui/core";
+import { Alert } from "@material-ui/lab";
 
 const HomePage = ({ userId, csrftoken }) => {
   let params = useParams();
@@ -11,6 +13,8 @@ const HomePage = ({ userId, csrftoken }) => {
   const [breakTime, setBreakTime] = useState(5);
   const [sessionEnded, setSessionEnded] = useState(false);
   const [work, setWork] = useState(true);
+  const [sessionStarted, setSessionStarted] = useState(false);
+  const [feedbackSubmitted, setFeedbackSubmitted] = useState(false);
 
   useEffect(() => {
     const requestOptions = {
@@ -47,43 +51,73 @@ const HomePage = ({ userId, csrftoken }) => {
       });
   }, []);
 
-  return (
-    <div>
-      <div className="signin">
-        {!sessionEnded ? (
-          <div className="timer-container">
-            <div className="timer home-page">
-              <img src={"/static/img/tomato.svg"} alt="" />
-              <h6>{work ? "Work Time" : "Break Time"}</h6>
-              <CircularStatic
-                workTime={workTime}
-                breakTime={breakTime}
-                work={work}
-                setWork={setWork}
-              />
-              <div className="timer-buttons">
-                <button>
-                  <PauseRounded style={{ fill: "red" }} />
-                </button>
-                <button>
-                  <PlayArrowRounded style={{ fill: "red" }} />
-                </button>
-              </div>
-            </div>
-            <button
-              className="red-butt"
-              onClick={() => {
-                setSessionEnded(true);
-              }}
-            >
-              Finish
-            </button>
-          </div>
-        ) : null}
-        {sessionEnded ? <Feedback /> : null}
+  if (!sessionStarted) {
+    return (
+      <div className="start-session">
+        <Collapse in={feedbackSubmitted}>
+          <Alert onClose={() => setFeedbackSubmitted(false)}>
+            Feedback Submitted
+          </Alert>
+        </Collapse>
+        <button
+          className="red-butt"
+          onClick={() => {
+            setSessionStarted(true);
+            setSessionEnded(false);
+          }}
+        >
+          Start Session
+        </button>
       </div>
-    </div>
-  );
+    );
+  } else {
+    return (
+      <div>
+        <div className="home-page">
+          {!sessionEnded ? (
+            <div className="timer-container">
+              <div className="timer home-page">
+                <img
+                  className="timer-img"
+                  src={"/static/img/tomato.svg"}
+                  alt=""
+                />
+                <h6>{work ? "Work Time" : "Break Time"}</h6>
+                <CircularStatic
+                  workTime={workTime}
+                  breakTime={breakTime}
+                  work={work}
+                  setWork={setWork}
+                />
+                <div className="timer-buttons">
+                  <button>
+                    <PauseRounded style={{ fill: "red" }} />
+                  </button>
+                  <button>
+                    <PlayArrowRounded style={{ fill: "red" }} />
+                  </button>
+                </div>
+              </div>
+              <button
+                className="red-butt"
+                onClick={() => {
+                  setSessionEnded(true);
+                }}
+              >
+                Finish
+              </button>
+            </div>
+          ) : null}
+          {sessionEnded ? (
+            <Feedback
+              setSessionStarted={setSessionStarted}
+              setFeedbackSubmitted={setFeedbackSubmitted}
+            />
+          ) : null}
+        </div>
+      </div>
+    );
+  }
 };
 
 export default HomePage;

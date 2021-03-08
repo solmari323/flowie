@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import DiscreteSlider from "./Slider";
 import Rating from "./Rating";
 
-const Feedback = () => {
+const Feedback = ({ setSessionStarted, setFeedbackSubmitted }) => {
   const [next, setNext] = useState(false);
   const [breakTooshort, setBreakTooshort] = useState();
   const [workTooshort, setWorkTooshort] = useState();
@@ -26,9 +26,20 @@ const Feedback = () => {
       {next == true && (
         <div className="feedback-container">
           <DiscreteSlider />
+          <br />
           <Rating type="work" />
+          <br />
           <Rating type="break" />
-          <button onClick={() => {}}>FINISH</button> {/* On finish go to the home page?/timer page?*/}
+          <br />
+          <button
+            onClick={() => {
+              setSessionStarted(false);
+              setFeedbackSubmitted(true);
+            }}
+          >
+            FINISH
+          </button>{" "}
+          {/* On finish go to the home page?/timer page?*/}
         </div>
       )}
     </div>
